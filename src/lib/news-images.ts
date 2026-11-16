@@ -1,0 +1,47 @@
+import { cacheLife } from "next/cache";
+import type { NewsEvent, NewsSource } from "@/lib/news-edition";
+
+export type ArticleImage = { url: string; alt: string; publisher: string; articleUrl: string };
+
+const decode = (value: string) => value.replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
+const allowedImage = (value: string) => {
+  try {
+    const url = new URL(decode(value));
+    return url.protocol === "https:" && url.hostname === "image.cnbcfm.com" ? url.href : null;
+  } catch { return null; }
+};
+
+// Read only public preview metadata, never article bodies or paywalled content.
+export function parseArticleImage(html: string): { url: string; alt: string } | null {
+  const metadata = new Map<string, string>();
+  for (const tag of html.matchAll(/<meta\b[^>]*>/gi)) {
+    const attributes = new Map([...tag[0].matchAll(/([\w:-]+)\s*=\s*(["'])([\s\S]*?)\2/g)].map(match => [match[1].toLowerCase(), decode(match[3])]));
+    const key = attributes.get("property") ?? attributes.get("name");
+    if (key && attributes.get("content")) metadata.set(key.toLowerCase(), attributes.get("content")!);
+  }
+  const url = allowedImage(metadata.get("og:image") ?? metadata.get("twitter:image") ?? "");
+  return url ? { url, alt: metadata.get("og:image:alt") ?? metadata.get("twitter:image:alt") ?? "" } : null;
+}
+
+async function sourceImage(source: NewsSource): Promise<ArticleImage | null> {
+  try {
+    const url = new URL(source.url);
+    // Restrict fetches to the publisher already used by this prototype.
+    if (url.protocol !== "https:" || url.hostname !== "www.cnbc.com") return null;
+    const response = await fetch(url, { signal: AbortSignal.timeout(4000), redirect: "error" });
+    if (!response.ok || !response.headers.get("content-type")?.includes("text/html")) return null;
+    const image = parseArticleImage(await response.text());
+    return image ? { ...image, publisher: source.publisher, articleUrl: source.url } : null;
+  } catch { return null; }
+}
+
+export async function getArticleImage(sources: NewsSource[]): Promise<ArticleImage | null> {
+  "use cache";
+  cacheLife({ stale: 3600, revalidate: 86400, expire: 172800 });
+  const images = await Promise.all(sources.slice(0, 2).map(sourceImage));
+  return images.find(Boolean) ?? null;
+}
+
+export async function withArticleImages(events: NewsEvent[]) {
+  return Promise.all(events.map(async event => ({ ...event, image: await getArticleImage(event.sources) })));
+}

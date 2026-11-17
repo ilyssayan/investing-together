@@ -1,3 +1,4 @@
+import { BookOpen } from "lucide-react";
 import { referenceIcon } from "@/lib/palette";
 
 // Shapes distinguish lessons; color does not encode their order.
@@ -35,12 +36,50 @@ const shapes = ({ solid: DARK, mid: MID, tint: LIGHT }: Shades) => [
     <circle cx="24" cy="24" r="17" fill={LIGHT} />
     <path d="M24 24 L24 7 A17 17 0 0 1 40 30 Z" fill={DARK} />
   </>,
+  // Compound growth: a curve building on itself.
+  <>
+    <path d="M7 7v34h35" fill="none" stroke={MID} strokeWidth="3" strokeLinecap="round" />
+    <path d="M10 35c17 0 22-8 27-25" fill="none" stroke={DARK} strokeWidth="4" strokeLinecap="round" />
+    <circle cx="37" cy="10" r="5" fill={LIGHT} stroke={DARK} strokeWidth="2" />
+  </>,
+  // Inflation: a price tag and an upward price arrow.
+  <>
+    <path d="M6 18L18 6h13v13L18 32 6 20Z" fill={LIGHT} stroke={MID} strokeWidth="2" />
+    <circle cx="24" cy="12" r="2.5" fill={DARK} />
+    <path d="M35 40V22m-6 6 6-6 6 6" fill="none" stroke={DARK} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+  </>,
+  // Index funds: a collection inside a single frame.
+  <>
+    <rect x="5" y="7" width="38" height="34" rx="5" fill="none" stroke={DARK} strokeWidth="3" />
+    <path d="M5 17h38" stroke={DARK} strokeWidth="3" />
+    <rect x="11" y="23" width="7" height="11" rx="2" fill={MID} />
+    <rect x="21" y="23" width="7" height="11" rx="2" fill={LIGHT} />
+    <rect x="31" y="23" width="6" height="11" rx="2" fill={DARK} />
+  </>,
+  // Reading headlines: a news page with a magnifying glass.
+  <>
+    <rect x="6" y="5" width="29" height="36" rx="3" fill={LIGHT} />
+    <path d="M12 13h17M12 20h12M12 27h7" stroke={MID} strokeWidth="3" strokeLinecap="round" />
+    <circle cx="31" cy="29" r="8" fill="none" stroke={DARK} strokeWidth="3" />
+    <path d="m37 35 6 7" stroke={DARK} strokeWidth="3" strokeLinecap="round" />
+  </>,
 ];
 
-export function LessonIcon({ index, className = "size-12", shades }: { index: number; className?: string; shades?: Shades }) {
-  return (
-    <svg viewBox="0 0 48 48" aria-hidden className={className}>
-      {shapes(shades ?? referenceIcon)[index % 5]}
-    </svg>
-  );
+// Explicit semantic mapping: reordering or adding lessons never cycles icons.
+const iconByLesson: Record<string, number> = {
+  "what-is-investing": 0,
+  "stocks-bonds-funds": 1,
+  "risk-and-diversification": 2,
+  "credit-scores": 3,
+  "understanding-debt": 4,
+  "compound-growth": 5,
+  "inflation-and-purchasing-power": 6,
+  "index-funds-and-fees": 7,
+  "reading-financial-headlines": 8,
+};
+
+export function LessonIcon({ slug, className = "size-12", shades }: { slug: string; className?: string; shades?: Shades }) {
+  const icon = iconByLesson[slug];
+  if (icon === undefined) return <BookOpen className={className} aria-hidden />;
+  return <svg viewBox="0 0 48 48" aria-hidden className={className}>{shapes(shades ?? referenceIcon)[icon]}</svg>;
 }

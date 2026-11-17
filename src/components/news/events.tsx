@@ -30,40 +30,27 @@ export async function EventList() {
 
   return (
     <>
-      <ol className="grid gap-5 lg:grid-cols-3">
+      <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {events.map((event, i) => (
-          <li key={event.slug} className={i === 0 ? "lg:col-span-3" : ""}>
+          <li key={event.slug} className={i === 0 ? "sm:col-span-2 lg:col-span-3" : ""}>
             <Link
               href={`/news/${event.slug}`}
-              className={`group flex h-full flex-col gap-4 rounded-xl p-7 transition-transform duration-300 ease-out hover:-translate-y-1 sm:p-9 ${
-                i === 0 ? "bg-primary text-primary-foreground" : "border bg-card"
+              className={`group flex h-full flex-col gap-4 rounded-2xl border p-5 transition-transform duration-300 ease-out hover:-translate-y-1 sm:p-6 ${
+                i === 0 ? "bg-primary text-primary-foreground lg:grid lg:grid-cols-[2fr_3fr] lg:items-center lg:gap-7" : "bg-card"
               }`}
             >
-              <ArticleImage image={event.image} featured={i === 0}/>
-              <p className={`eyebrow ${i === 0 ? "!text-primary-foreground/70" : ""}`}>
-                {i === 0 ? "Top story · " : ""}
-                {day(event.updated)}
-              </p>
-              <h2
-                className={`font-display leading-tight font-semibold ${
-                  i === 0 ? "max-w-3xl text-3xl sm:text-4xl" : "text-xl sm:text-2xl"
-                }`}
-              >
-                {event.title}
-              </h2>
-              <p className={`max-w-2xl text-lg leading-8 ${i === 0 ? "opacity-85" : "text-muted-foreground"}`}>
-                {event.dek}
-              </p>
-              <p className="mt-auto flex flex-wrap items-center justify-between gap-4 pt-4 font-medium">
-                <span className="inline-flex items-center gap-2">
-                  Read the explanation
-                  <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-                <span className={`text-sm font-normal whitespace-nowrap ${i === 0 ? "opacity-70" : "text-muted-foreground"}`}>
-                  {event.sources.length} sources
-                  {i === 0 && ` · ${publishers(event).join(", ")}`}
-                </span>
-              </p>
+              {event.image && <ArticleImage image={event.image} featured={i === 0}/>}
+              <div className={`flex h-full flex-col gap-3 ${i === 0 && !event.image ? "lg:col-span-2" : ""}`}>
+                <p className={`eyebrow ${i === 0 ? "!text-primary-foreground/70" : ""}`}>
+                  {i === 0 ? "Top story · " : ""}{day(event.updated)}
+                </p>
+                <h2 className={`font-display leading-snug font-semibold ${i === 0 ? "text-2xl sm:text-3xl" : "text-xl"}`}>{event.title}</h2>
+                <p className={`text-base leading-7 ${i === 0 ? "opacity-85" : "text-muted-foreground"}`}>{event.dek}</p>
+                <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-2 text-sm font-medium">
+                  <span className="inline-flex items-center gap-2">Read the explanation<ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" /></span>
+                  <span className={`text-xs font-normal ${i === 0 ? "opacity-70" : "text-muted-foreground"}`}>{event.sources.length} sources{i === 0 && ` · ${publishers(event).join(", ")}`}</span>
+                </div>
+              </div>
             </Link>
           </li>
         ))}
@@ -202,14 +189,14 @@ export async function EventDetail({ params }: { params: Promise<{ slug: string }
 export async function HomeNews() {
   await connection();
   const result = await getEvents();
-  const events = await withArticleImages(result.events.slice(0, 4));
+  const events = await withArticleImages(result.events.slice(0, 3));
   return (
-    <ol className="grid gap-5 md:grid-cols-2">
-      {events.slice(0, 4).map((event) => (
+    <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      {events.map((event) => (
         <li key={event.slug}>
           <Link
             href={`/news/${event.slug}`}
-            className="group flex h-full flex-col gap-2 rounded-2xl border bg-card p-6 sm:p-8 transition-transform duration-200 hover:-translate-y-1"
+            className="group flex h-full flex-col gap-2 rounded-2xl border bg-card p-5 sm:p-6 transition-transform duration-200 hover:-translate-y-1"
           >
             <ArticleImage image={event.image}/>
             <span className="eyebrow">
@@ -218,7 +205,7 @@ export async function HomeNews() {
             <span className="text-xl leading-snug font-bold">
               {event.title}
             </span>
-            <span className="text-foreground/70">{event.dek}</span>
+            <span className="text-sm leading-6 text-muted-foreground">{event.dek}</span>
           </Link>
         </li>
       ))}

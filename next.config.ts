@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "i.ytimg.com" },
       { protocol: "https", hostname: "image.cnbcfm.com" },
+      ...["dims.apnews.com", "assets.apnews.com", "iea.imgix.net", "nrf.com", "cdn.nrf.com", "www.nrf.com"].map(hostname => ({ protocol: "https" as const, hostname })),
     ],
   },
   partialPrefetching: true,

@@ -1,3 +1,4 @@
+import { additionalLessons } from "@/lib/additional-lessons";
 // Sample content for the prototype. Everything here is placeholder data that
 // will later come from Supabase (lessons, posts) or a real news source.
 
@@ -104,6 +105,7 @@ export type Lesson = {
   parts: { heading: string; body: string }[];
   terms: string[]; // glossary terms used in this lesson
   check: { question: string; options: string[]; answer: number };
+  sources?: { title: string; url: string }[];
 };
 
 export const lessons: Lesson[] = [
@@ -254,6 +256,7 @@ export const lessons: Lesson[] = [
       answer: 0,
     },
   },
+  ...additionalLessons,
 ];
 
 export type NewsItem = {

@@ -77,19 +77,20 @@ async function Lesson({ params }: { params: Promise<{ slug: string }> }) {
 
         <RequireAccount>
           <div className="flex flex-col gap-12">
-        <section className="flex flex-col gap-5">
+        {lesson.video && <section className="flex flex-col gap-5">
           <Step number={1} title="Watch" />
           <LessonVideo video={lesson.video} />
-        </section>
+        </section>}
 
         <section className="flex flex-col gap-6">
-          <Step number={2} title="Read" />
+          <Step number={lesson.video ? 2 : 1} title="Read" />
           {lesson.parts.map((part) => (
             <div key={part.heading} className="flex max-w-2xl flex-col gap-1">
               <h3 className="font-display font-semibold text-2xl">{part.heading}</h3>
               <p className="text-lg leading-8">{part.body}</p>
             </div>
           ))}
+          {lesson.sources && <div className="max-w-2xl rounded-xl border bg-card p-5"><h3 className="eyebrow mb-3">Read more</h3><ul className="space-y-2">{lesson.sources.map(source=><li key={source.url}><a href={source.url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary underline underline-offset-4">{source.title}</a></li>)}</ul></div>}
           <div className="flex max-w-2xl flex-col gap-2">
             <h3 className="font-display font-semibold text-2xl">Words in this lesson</h3>
             <TermList terms={lesson.terms} />
@@ -98,13 +99,13 @@ async function Lesson({ params }: { params: Promise<{ slug: string }> }) {
 
         {visual && (
           <section className="flex flex-col gap-5">
-            <Step number={3} title="See it" />
+            <Step number={lesson.video ? 3 : 2} title="See it" />
             <div className="max-w-3xl">{visual}</div>
           </section>
         )}
 
         <section className="flex flex-col gap-5">
-          <Step number={visual ? 4 : 3} title="Practice" />
+          <Step number={(lesson.video ? 2 : 1) + (visual ? 1 : 0) + 1} title="Practice" />
           <div className="max-w-2xl">
             <Practice slug={lesson.slug} questions={lesson.practice} />
           </div>

@@ -1,6 +1,6 @@
 // A hand-checked edition of "News, explained".
 //
-// These events were written on November 15, 2026 from the CNBC articles
+// These events were written on November 15–16, 2026 from the articles and reports
 // linked under each one. The site shows this edition whenever live
 // explanations are off (no ANTHROPIC_API_KEY) or unavailable, so the page
 // always has real, sourced stories. To publish a new edition, replace the
@@ -27,7 +27,7 @@ export type NewsEvent = {
   sources: NewsSource[];
 };
 
-export const EDITION_DATE = "2026-11-15";
+export const EDITION_DATE = "2026-11-16";
 
 const cnbc = (title: string, path: string, published: string): NewsSource => ({
   title,
@@ -160,5 +160,44 @@ export const edition: NewsEvent[] = [
       cnbc("Here's what the Democratic election rout could mean for the U.S. economy", "2026/11/05/emocratic-midterm-economy.html", "2026-11-05"),
       cnbc("Analysis: The Democrats have one chance to extract concessions from Trump. Markets will hate it", "2026/11/04/democrats-trump-debt-ceiling-fight.html", "2026-11-04"),
     ],
+  },
+  {
+    slug: "retail-spending-october-2026",
+    title: "Retail spending edged higher. What does that tell us?",
+    dek: "October's CNBC/NRF Retail Monitor showed another spending increase. Sales figures tell part of the economic story, not all of it.",
+    updated: "2026-11-11",
+    whatHappened: ["The National Retail Federation reported that October retail sales, excluding automobile dealers and gasoline stations, rose 0.15% from September and 3.57% from a year earlier. Both comparisons were seasonally adjusted."],
+    whyTheMarketCares: "In general, consumer spending helps shape company revenue. Investors watch retail reports for clues about demand, while also considering costs and profits. Higher sales alone do not guarantee higher share prices.",
+    whatItMeansForYou: "Ask what a number measures before interpreting it. Dollar sales can change because prices change, people buy different amounts, or both. This report is based on card transactions and is different from the Census Bureau's retail survey.",
+    goodToKnow: ["Month-over-month compares consecutive months; year-over-year compares the same month in different years.", "The Retail Monitor changed its methodology in September, limiting comparisons with older releases."],
+    terms: [{ term: "Revenue", meaning: "Money a business receives from sales before subtracting expenses." }, { term: "Seasonally adjusted", meaning: "Adjusted to reduce predictable calendar effects, such as holiday shopping." }],
+    lesson: "stocks-bonds-funds",
+    sources: [{ title: "CNBC/NRF Retail Monitor Shows Another Month of Sales Growth in October", publisher: "National Retail Federation", url: "https://cdn.nrf.com/media-center/press-releases/cnbc-nrf-retail-monitor-shows-another-month-of-sales-growth-in-october", published: "2026-11-11" }, cnbc("Consumers are showing signs of strain even as they keep spending, CNBC/NRF Retail Monitor shows", "2026/11/11/october-retail-sales-cnbc-nrf-2026.html", "2026-11-11")],
+  },
+  {
+    slug: "oil-supply-recovery-november-2026",
+    title: "Oil supply is recovering. Why do markets care?",
+    dek: "The IEA's November report points to easing supply pressure, while warning that shipping disruptions remain a risk.",
+    updated: "2026-11-13",
+    whatHappened: ["The International Energy Agency reported that global oil supply rose in October as Gulf exports recovered. Its November outlook projected a supply surplus in the fourth quarter, but warned that attacks on shipping could disrupt the recovery."],
+    whyTheMarketCares: "As a general mechanism, more supply relative to demand can push prices lower. Cheaper oil can ease fuel costs for some businesses and households, while reducing revenue for oil producers. Different companies can experience the same change differently.",
+    whatItMeansForYou: "Separate a measured change from a forecast. October's supply figures describe the recent past; the fourth-quarter surplus is an outlook that could change. Neither tells you what an individual investment will do next.",
+    goodToKnow: ["Crude oil and the refined fuel sold at a gas station are different products.", "A supply forecast depends on assumptions about production, demand, and transport."],
+    terms: [{ term: "Supply surplus", meaning: "More of a product is available than buyers use over a given period." }, { term: "Forecast", meaning: "An estimate of what might happen, rather than a guaranteed outcome." }],
+    lesson: "risk-and-diversification",
+    sources: [{ title: "Oil Market Report – November 2026", publisher: "International Energy Agency", url: "https://www.iea.org/reports/oil-market-report-november-2026", published: "2026-11-13" }],
+  },
+  {
+    slug: "japan-economy-third-quarter-2026",
+    title: "Japan's economy slipped. One quarter is not the whole story.",
+    dek: "A small contraction shows why economic headlines need context.",
+    updated: "2026-11-16",
+    whatHappened: ["AP reported that Japan's economy contracted at a 0.1% annualized rate in July–September, with slower consumer spending and higher oil-import costs weighing on activity."],
+    whyTheMarketCares: "Generally, economic activity influences business sales and policy expectations. It does not determine every company's results.",
+    whatItMeansForYou: "Annualized describes a quarterly pace extended over a year, not an actual full-year result. Look beyond one headline.",
+    goodToKnow: ["One weak quarter alone does not establish a lasting trend."],
+    terms: [{ term: "GDP", meaning: "A measure of the goods and services produced in an economy." }],
+    lesson: "what-is-investing",
+    sources: [{ title: "Japan's economy contracts slightly in the latest quarter as oil prices remain high", publisher: "Associated Press", url: "https://apnews.com/article/263988f2ec1894d3bf88522fd12500a6", published: "2026-11-16" }, cnbc("Japan's economy unexpectedly contracts in third-quarter as elevated energy costs bite", "2026/11/16/japan-q3-gdp-energy-oil-prices.html", "2026-11-16")],
   },
 ];

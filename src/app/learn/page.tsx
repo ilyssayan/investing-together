@@ -6,7 +6,7 @@ export default function LearnPage() {
   return (
     <PageShell
       title="Learn"
-      intro="One course, two units. Each lesson is a short video, a quick read, and practice questions."
+      intro="Build your understanding with short lessons, worked examples, practice questions, and selected videos."
     >
       <LearnBrowser lessons={lessons} glossary={glossary} />
     </PageShell>

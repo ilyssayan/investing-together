@@ -2,6 +2,7 @@ import { BookA, ChevronRight, MessagesSquare, SlidersHorizontal } from "lucide-r
 import Link from "next/link";
 import { Suspense } from "react";
 
+import { courseLessons, units } from "@/lib/course";
 import { CourseList } from "@/components/home/course-list";
 import { GrowthStory } from "@/components/home/growth-story";
 import { Hero } from "@/components/home/hero";
@@ -23,12 +24,16 @@ export default function Home() {
       <Hero />
 
       <section className={section}>
-        <div className="mb-10 max-w-2xl">
-          <h2 className={heading}>The course</h2>
-          <p className="mt-3 text-lg text-muted-foreground">
-            Five lessons in two units. Every lesson has a video, a short read
-            and practice questions with hints.
-          </p>
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-4">
+          <div className="max-w-2xl">
+            <h2 className={heading}>The course</h2>
+            <p className="mt-3 text-lg text-muted-foreground">
+              Start with these two units. Explore all {courseLessons.length} lessons across {units.length} units in Learn.
+            </p>
+          </div>
+          <Link href="/learn" className="inline-flex items-center gap-1 font-semibold text-primary underline underline-offset-4 hover:decoration-primary/50">
+            View all units<ChevronRight className="size-4" />
+          </Link>
         </div>
         <CourseList />
       </section>
@@ -45,8 +50,8 @@ export default function Home() {
               it means for you.
             </p>
           </div>
-          <Link href="/news" className="inline-flex items-center gap-1 font-semibold text-primary hover:underline">
-            All news
+          <Link href="/news" className="inline-flex items-center gap-1 font-semibold text-primary underline underline-offset-4 hover:decoration-primary/50">
+            View all news
             <ChevronRight className="size-4" />
           </Link>
         </div>

@@ -79,7 +79,7 @@ export function UnitList({
                         </span>
                         {!compact && (
                           <span className="text-muted-foreground">
-                            Video · {lesson.minutes} min read ·{" "}
+                            {lesson.video ? "Video · " : ""}{lesson.minutes} min read ·{" "}
                             {lesson.practice.length} practice questions
                           </span>
                         )}

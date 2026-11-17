@@ -5,11 +5,11 @@ import { PageShell } from "@/components/page-shell";
 
 function Loading() {
   return (
-    <div className="grid gap-5 lg:grid-cols-3" aria-busy="true" aria-label="Loading news">
+    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true" aria-label="Loading news">
       {[0, 1, 2].map((i) => (
         <div
           key={i}
-          className={`h-64 animate-pulse rounded-xl bg-muted ${i === 0 ? "lg:col-span-3" : ""}`}
+          className={`h-64 animate-pulse rounded-xl bg-muted ${i === 0 ? "sm:col-span-2 lg:col-span-3" : ""}`}
         />
       ))}
     </div>

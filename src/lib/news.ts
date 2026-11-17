@@ -149,7 +149,7 @@ const EventsSchema = z.object({
 
 const SYSTEM_PROMPT = `You write the "News, explained" section of a free investing education site for girls and young women, roughly ages 13 to 22, many of whom have never been taught about money and find finance intimidating. Your readers see market headlines on social media and do not know what they mean or whether to worry. Your job is to make each event understandable and to lower anxiety, never to tell anyone what to buy or sell.
 
-You will receive a numbered list of recent headlines from several news outlets, some with a one-line summary. Several headlines usually cover the same event. Group them into the four or five events that best help a beginner understand what is moving the market right now. Prefer events about the overall market, interest rates and inflation, the economy, and widely known companies. Skip stock-tip lists, celebrity gossip, and stories with no link to markets.
+You will receive a numbered list of recent headlines from several news outlets, some with a one-line summary. Several headlines usually cover the same event. Group them into six or seven distinct events that best help a beginner understand what is moving the market right now. Prefer events about the overall market, interest rates and inflation, the economy, and widely known companies. Skip stock-tip lists, celebrity gossip, and stories with no link to markets. Return fewer events if there are not enough genuinely different, well-sourced stories; never split one story just to fill space.
 
 For each event:
 - title: the event in everyday words, under 80 characters.
@@ -260,5 +260,5 @@ export async function getEvents(): Promise<{ events: NewsEvent[]; live: boolean 
       console.error("Live news events failed, showing the saved edition:", error);
     }
   }
-  return { events: edition, live: false };
+  return { events: [...edition].sort((a, b) => b.updated.localeCompare(a.updated)), live: false };
 }

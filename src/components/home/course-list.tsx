@@ -4,18 +4,18 @@ import { ChevronRight } from "lucide-react";
 import Link from "next/link";
 
 import { LessonIcon } from "@/components/lesson-icon";
-import { courseLessons, levelFor, levels, units } from "@/lib/course";
+import { levelFor, levels, units } from "@/lib/course";
 import { useProgress } from "@/lib/progress";
 
 
-// The course on the home page: both units side by side, one row per lesson
+// Homepage preview: the first two units, one row per lesson
 // with its icon, what's inside, and the learner's level once they've started.
 export function CourseList() {
   const progress = useProgress();
 
   return (
     <div className="grid gap-6 lg:grid-cols-2">
-      {units.map((unit, u) => (
+      {units.slice(0, 2).map((unit, u) => (
         <section
           key={unit.title}
           className="rounded-2xl border bg-card p-6 sm:p-8"
@@ -38,14 +38,14 @@ export function CourseList() {
                     className="group -mx-3 flex items-center gap-4 rounded-xl px-3 py-4 transition-colors hover:bg-secondary/60"
                   >
                     <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-secondary">
-                      <LessonIcon index={courseLessons.indexOf(lesson)} className="size-10" />
+                      <LessonIcon slug={lesson.slug} className="size-10" />
                     </span>
                     <span className="flex min-w-0 flex-1 flex-col">
                       <span className="text-lg leading-snug font-semibold">{lesson.title}</span>
                       <span className="text-sm text-foreground/65">
                         {level > 0
                           ? <span className="text-success">{levels[level]}</span>
-                          : `Video · ${lesson.minutes} min read · ${lesson.practice.length} questions`}
+                          : `${lesson.video ? "Video · " : ""}${lesson.minutes} min read · ${lesson.practice.length} questions`}
                       </span>
                     </span>
                     <ChevronRight className="size-5 shrink-0 text-foreground/50 transition-transform duration-200 group-hover:translate-x-1" />

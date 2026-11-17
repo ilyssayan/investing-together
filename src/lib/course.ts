@@ -1,3 +1,4 @@
+import { additionalPractice } from "@/lib/additional-lessons";
 import { lessons, type Lesson } from "@/lib/mock-data";
 
 // The course is organised the way Khan Academy organises its courses:
@@ -13,9 +14,10 @@ export type Question = {
 
 export type Video = { id: string; title: string }; // YouTube id, Khan Academy
 
-type Extras = { video: Video; practice: Question[] };
+type Extras = { video?: Video; practice: Question[] };
 
 const extras: Record<string, Extras> = {
+  ...Object.fromEntries(Object.entries(additionalPractice).map(([slug, practice]) => [slug, { practice }])),
   "what-is-investing": {
     video: { id: "jhvCc5tKAno", title: "Saving and investing" },
     practice: [
@@ -177,6 +179,16 @@ export const units = [
     title: "Credit and debt",
     description: "How borrowing works and how lenders decide to trust you.",
     lessons: ["credit-scores", "understanding-debt"].map(bySlug),
+  },
+  {
+    title: "Growth and buying power",
+    description: "Understand compounding, inflation, and what fund costs mean.",
+    lessons: ["compound-growth", "inflation-and-purchasing-power", "index-funds-and-fees"].map(bySlug),
+  },
+  {
+    title: "Making sense of financial news",
+    description: "Read critically, question predictions, and spot pressure tactics.",
+    lessons: ["reading-financial-headlines"].map(bySlug),
   },
 ];
 

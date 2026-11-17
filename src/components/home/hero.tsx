@@ -81,7 +81,7 @@ function PracticeCard() {
   );
 }
 
-const video = courseLessons[0].video;
+const video = courseLessons[0].video!;
 
 function VideoCard() {
   return (
